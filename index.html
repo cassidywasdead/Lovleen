@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Lovleen ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: -apple-system, sans-serif; background-color: #fff0f5; overflow: hidden; touch-action: manipulation; }
+        h1 { color: #ff2d55; text-align: center; padding: 20px; font-size: 1.8rem; }
+        .container { position: relative; width: 100%; height: 300px; display: flex; justify-content: center; align-items: center; }
+        button { padding: 15px 35px; font-size: 1.1rem; font-weight: bold; border: none; border-radius: 50px; cursor: pointer; position: absolute; transition: all 0.15s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        #yesBtn { background-color: #34c759; color: white; transform: translateX(-70px); }
+        #noBtn { background-color: #ff3b30; color: white; transform: translateX(70px); z-index: 10; }
+        .success { display: none; text-align: center; animation: fadeIn 1s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <h1>Lovleen, do you love me? ❤️</h1>
+        <div class="container">
+            <button id="yesBtn" onclick="celebrate()">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+    <div id="message" class="success">
+        <h1 style="font-size: 2.5rem;">I knew it! 💖✨</h1>
+        <p style="font-size: 5rem;">🌹</p>
+    </div>
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const moveButton = (e) => {
+            e.preventDefault();
+            const maxX = window.innerWidth - noBtn.offsetWidth - 40;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 40;
+            const x = Math.max(20, Math.floor(Math.random() * maxX));
+            const y = Math.max(20, Math.floor(Math.random() * maxY));
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            noBtn.style.transform = 'none';
+        };
+        noBtn.addEventListener('touchstart', moveButton);
+        noBtn.addEventListener('mouseover', moveButton);
+        function celebrate() {
+            document.getElementById('game').style.display = 'none';
+            document.getElementById('message').style.display = 'block';
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        }
+    </script>
+</body>
+</html>
