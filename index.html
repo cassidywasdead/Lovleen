@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>For My Lovleen ❤️</title>
+    
+    <title> </title>
+    <meta name="twitter:card" content="none" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:ital,wght@0,300;0,500;0,600;1,400&display=swap');
@@ -19,30 +25,31 @@
 
         .card { 
             background: linear-gradient(145deg, rgba(255, 240, 245, 0.85), rgba(255, 228, 235, 0.85));
-            backdrop-filter: blur(25px); 
-            padding: 30px 20px; border-radius: 40px; text-align: center; 
+            backdrop-filter: blur(25px); padding: 30px 20px; border-radius: 40px; text-align: center; 
             box-shadow: 0 15px 45px rgba(255, 105, 180, 0.25);
-            border: 2px solid rgba(255, 182, 193, 0.6);
-            width: 85%; max-width: 380px; z-index: 10; position: relative; 
+            border: 2px solid rgba(255, 182, 193, 0.6); width: 85%; max-width: 380px; z-index: 10; position: relative; 
         }
 
         h1 { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.5rem; margin-bottom: 20px; }
         .apology-msg { font-family: 'Poppins', sans-serif; font-style: italic; font-size: 1.1rem; color: #d63384; line-height: 1.5; margin-bottom: 15px; }
         
-        .btn-wrap { position: relative; height: 80px; display: flex; justify-content: center; align-items: center; }
-        button { padding: 12px 35px; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; }
-        #yesBtn { background: linear-gradient(45deg, #34c759, #28a745); color: white; margin-right: 15px; }
-        #noBtn { background: linear-gradient(45deg, #ff3b30, #dc3545); color: white; position: absolute; right: 30px; }
+        .btn-wrap { position: relative; height: 100px; display: flex; justify-content: center; align-items: center; }
         
-        /* ADJUSTED HEART PHOTO */
+        button { 
+            padding: 12px 35px; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 50px; 
+            cursor: pointer; transition: all 0.2s ease; /* Smooth movement */
+        }
+        
+        #yesBtn { background: linear-gradient(45deg, #34c759, #28a745); color: white; margin-right: 15px; z-index: 5; }
+        
+        #noBtn { 
+            background: linear-gradient(45deg, #ff3b30, #dc3545); color: white; 
+            position: absolute; right: 30px; z-index: 10;
+        }
+        
         .couple-photo { 
-            width: 210px; /* Made it a bit bigger */
-            height: 190px; 
-            object-fit: cover; 
-            /* YE SABSE ZAROORI HAI: Photo ko 70% neeche se dikhayega taaki faces upar aayein */
-            object-position: center 70%; 
-            margin: 20px auto; 
-            display: block;
+            width: 210px; height: 190px; object-fit: cover; 
+            object-position: center 70%; margin: 20px auto; display: block;
             mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>');
             -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>');
             mask-size: contain; -webkit-mask-size: contain; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: center; -webkit-mask-position: center;
@@ -50,7 +57,6 @@
         }
         
         .puchiiii { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.2rem; display: block; margin-top: 15px; }
-        
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
@@ -63,7 +69,7 @@
             <h1>Lovleen loves arnav? ❤️</h1>
             <div class="btn-wrap">
                 <button id="yesBtn" onclick="celebrate()">Yes</button>
-                <button id="noBtn">No</button>
+                <button id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton()">No</button>
             </div>
         </div>
         <div id="apologyArea" style="display:none; animation: fadeIn 0.8s forwards;">
@@ -74,21 +80,28 @@
     </div>
 
     <script>
+        // Background petal rain
         setInterval(() => {
             confetti({ particleCount: 1, angle: 90, spread: 360, origin: { y: -0.1 }, colors: ['#ffc0cb', '#ff69b4'], shapes: ['circle'] });
         }, 800);
 
-        const noBtn = document.getElementById('noBtn');
-        const moveButton = (e) => {
-            e.preventDefault();
-            const maxX = window.innerWidth - noBtn.offsetWidth - 60;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 60;
+        // FIXED NO BUTTON LOGIC
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const padding = 20;
+            
+            // Calculate safe area within screen
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            // Generate random positions within viewport
+            const newX = Math.random() * maxX;
+            const newY = Math.random() * maxY;
+
             noBtn.style.position = 'fixed';
-            noBtn.style.left = Math.max(30, Math.floor(Math.random() * maxX)) + 'px';
-            noBtn.style.top = Math.max(30, Math.floor(Math.random() * maxY)) + 'px';
-        };
-        noBtn.addEventListener('touchstart', moveButton);
-        noBtn.addEventListener('mouseover', moveButton);
+            noBtn.style.left = `${Math.max(padding, newX)}px`;
+            noBtn.style.top = `${Math.max(padding, newY)}px`;
+        }
 
         function celebrate() {
             document.getElementById('questionArea').style.display = 'none';
