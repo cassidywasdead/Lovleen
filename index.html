@@ -27,24 +27,22 @@
 
         h1 { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.5rem; margin-bottom: 20px; }
         .apology-msg { font-family: 'Poppins', sans-serif; font-style: italic; font-size: 1.1rem; color: #d63384; line-height: 1.5; margin-bottom: 15px; }
-        .btn-wrap { position: relative; height: 80px; display: flex; justify-content: center; align-items: center; }
         
+        .btn-wrap { position: relative; height: 80px; display: flex; justify-content: center; align-items: center; }
         button { padding: 12px 35px; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; }
         #yesBtn { background: #34c759; color: white; margin-right: 15px; }
         #noBtn { background: #ff3b30; color: white; position: absolute; right: 30px; }
         
-        /* PHOTO SIZE: 160px as requested */
-        .couple-photo { width: 160px; height: auto; border-radius: 20px; border: 4px solid #fff; margin: 15px auto; display: block; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        /* PHOTO SIZE: 160px */
+        .couple-photo { width: 160px; height: auto; border-radius: 200px; border: 4px solid #fff; margin: 15px auto; display: block; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         .puchiiii { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.2rem; display: block; margin-top: 10px; }
-        .bouquet { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
-        .bouquet span { font-size: 2rem; animation: float 3s infinite ease-in-out; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <audio id="boomSound" src="https://www.soundjay.com/misc/sounds/firework-show-01.mp3" preload="auto"></audio>
+    <audio id="fireworkSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" preload="auto"></audio>
 
     <div class="card" id="mainCard">
         <div id="questionArea">
@@ -58,15 +56,14 @@
             <p class="apology-msg">Arnav is sorry for his mistakes and will not repeat it and is asking for your forgiveness and love.</p>
             <img src="us.jpg" alt="Our Moment" class="couple-photo" onerror="this.style.display='none'">
             <span class="puchiiii">I love youuuu puchiiii 💖</span>
-            <div class="bouquet"><span>🌹</span><span>🌷</span><span>💐</span><span>🌺</span></div>
         </div>
     </div>
 
     <script>
-        // Constant background petal rain
+        // Background petal rain
         setInterval(() => {
             confetti({ particleCount: 1, angle: 90, spread: 360, origin: { y: -0.1 }, colors: ['#ffc0cb', '#ff69b4'], shapes: ['circle'] });
-        }, 700);
+        }, 800);
 
         const noBtn = document.getElementById('noBtn');
         const moveButton = (e) => {
@@ -84,41 +81,43 @@
             document.getElementById('questionArea').style.display = 'none';
             document.getElementById('apologyArea').style.display = 'block';
             
-            // 1. SOUND PLAY
-            const audio = document.getElementById('boomSound');
-            audio.play().catch(() => console.log("Silent mode on?"));
+            const audio = document.getElementById('fireworkSound');
+            audio.play();
 
-            // 2. SKYSHOTS (Random Bursts like Diwali)
-            var end = Date.now() + (12 * 1000);
-            var colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff'];
+            // --- PHASE 1: FOUNTAIN & PETALS (0-5 Seconds) ---
+            let fountainInterval = setInterval(() => {
+                // Blue/White Fountain
+                confetti({ particleCount: 10, angle: 90, spread: 30, origin: { y: 1.1, x: 0.5 }, colors: ['#a2d2ff', '#ffffff'], startVelocity: 45 });
+                // Rose Petals from sides
+                confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#e63946', '#ff4d6d'] });
+                confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#e63946', '#ff4d6d'] });
+            }, 200);
 
-            (function skyshots() {
-                confetti({
-                    particleCount: 60,
-                    angle: Math.random() * 360,
-                    spread: 120,
-                    origin: { x: Math.random(), y: Math.random() - 0.2 },
-                    colors: colors,
-                    shapes: ['circle', 'heart'],
-                    scalar: 1.4,
-                    startVelocity: 35
-                });
-                if (Date.now() < end) { setTimeout(skyshots, 600); }
-            }());
+            // --- PHASE 2: BIG SKYSHOTS (Start after 5 Seconds) ---
+            setTimeout(() => {
+                clearInterval(fountainInterval); // Fountain band karo
+                
+                let skyshotCount = 0;
+                let skyshotInterval = setInterval(() => {
+                    // Re-play sound for each big burst
+                    audio.currentTime = 0;
+                    audio.play();
 
-            // 3. WATER FOUNTAIN (Shooting Up)
-            var fountainEnd = Date.now() + 10000;
-            (function fountain() {
-                confetti({ particleCount: 8, angle: 90, spread: 25, origin: { y: 1.1, x: 0.5 }, colors: ['#a2d2ff', '#ffffff', '#007aff'], startVelocity: 50, gravity: 1.2 });
-                if (Date.now() < fountainEnd) { requestAnimationFrame(fountain); }
-            }());
+                    // Massive Skyshot Burst
+                    confetti({
+                        particleCount: 150,
+                        spread: 160,
+                        origin: { x: Math.random() * 0.8 + 0.1, y: Math.random() * 0.4 + 0.2 },
+                        colors: ['#ff0000', '#ffd700', '#00ff00', '#0000ff', '#ff00ff'],
+                        shapes: ['heart', 'circle'],
+                        scalar: 1.5,
+                        startVelocity: 40
+                    });
 
-            // 4. ROSE PETAL RAIN (Falling Down)
-            (function petals() {
-                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#e63946', '#ff4d6d'] });
-                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#e63946', '#ff4d6d'] });
-                if (Date.now() < end) { requestAnimationFrame(petals); }
-            }());
+                    skyshotCount++;
+                    if (skyshotCount > 10) clearInterval(skyshotInterval); // 10 bade dhamake
+                }, 800);
+            }, 5000);
         }
     </script>
 </body>
