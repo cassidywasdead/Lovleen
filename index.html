@@ -17,44 +17,39 @@
 
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* NEW AESTHETIC CARD */
         .card { 
-            /* Removed plain white, added soft gradient */
             background: linear-gradient(145deg, rgba(255, 240, 245, 0.85), rgba(255, 228, 235, 0.85));
-            backdrop-filter: blur(25px); /* Increased blur for premium feel */
+            backdrop-filter: blur(25px); 
             padding: 30px 20px; border-radius: 40px; text-align: center; 
-            /* Soft pink glow shadow */
             box-shadow: 0 15px 45px rgba(255, 105, 180, 0.25);
-            /* Pinkish border instead of white */
             border: 2px solid rgba(255, 182, 193, 0.6);
             width: 85%; max-width: 380px; z-index: 10; position: relative; 
         }
 
-        h1 { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.5rem; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(255,105,180,0.3); }
+        h1 { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.5rem; margin-bottom: 20px; }
         .apology-msg { font-family: 'Poppins', sans-serif; font-style: italic; font-size: 1.1rem; color: #d63384; line-height: 1.5; margin-bottom: 15px; }
         
         .btn-wrap { position: relative; height: 80px; display: flex; justify-content: center; align-items: center; }
-        button { padding: 12px 35px; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        button { padding: 12px 35px; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; }
         #yesBtn { background: linear-gradient(45deg, #34c759, #28a745); color: white; margin-right: 15px; }
         #noBtn { background: linear-gradient(45deg, #ff3b30, #dc3545); color: white; position: absolute; right: 30px; }
         
-        /* NEW HEART SHAPE PHOTO STYLES */
+        /* ADJUSTED HEART PHOTO */
         .couple-photo { 
-            width: 180px; /* Slightly wider for heart shape */
-            height: 160px; /* Fixed height */
-            object-fit: cover; /* Ensures photo fills the heart without stretching */
+            width: 210px; /* Made it a bit bigger */
+            height: 190px; 
+            object-fit: cover; 
+            /* YE SABSE ZAROORI HAI: Photo ko 70% neeche se dikhayega taaki faces upar aayein */
+            object-position: center 70%; 
             margin: 20px auto; 
             display: block;
-            /* CSS Mask to cut it into a heart */
             mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>');
             -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>');
             mask-size: contain; -webkit-mask-size: contain; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: center; -webkit-mask-position: center;
-            /* Pink drop shadow instead of border */
-            filter: drop-shadow(0 5px 15px rgba(255, 20, 147, 0.5));
-            border: none; /* Removed old white border */
+            filter: drop-shadow(0 5px 15px rgba(255, 20, 147, 0.4));
         }
         
-        .puchiiii { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.2rem; display: block; margin-top: 15px; text-shadow: 1px 1px 2px rgba(255,105,180,0.3); }
+        .puchiiii { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.2rem; display: block; margin-top: 15px; }
         
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
@@ -79,7 +74,6 @@
     </div>
 
     <script>
-        // Background petal rain
         setInterval(() => {
             confetti({ particleCount: 1, angle: 90, spread: 360, origin: { y: -0.1 }, colors: ['#ffc0cb', '#ff69b4'], shapes: ['circle'] });
         }, 800);
@@ -103,14 +97,12 @@
             const audio = document.getElementById('fireworkSound');
             audio.play();
 
-            // PHASE 1: Fountain & Petals (0-5s)
             let fountainInterval = setInterval(() => {
                 confetti({ particleCount: 10, angle: 90, spread: 30, origin: { y: 1.1, x: 0.5 }, colors: ['#a2d2ff', '#ffffff'], startVelocity: 45 });
                 confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#e63946', '#ff4d6d'] });
                 confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#e63946', '#ff4d6d'] });
             }, 200);
 
-            // PHASE 2: Skyshots (After 5s)
             setTimeout(() => {
                 clearInterval(fountainInterval);
                 let skyshotCount = 0;
