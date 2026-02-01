@@ -10,7 +10,6 @@
         
         body { 
             margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; 
-            /* Aesthetic Animated Background */
             background: linear-gradient(-45deg, #ffdee9, #b5fffc, #fff5f7, #ffd1dc);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
@@ -33,16 +32,9 @@
 
         h1 { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.8rem; margin-bottom: 25px; }
         
-        /* Aesthetic Apology Text */
         .apology-msg {
-            font-family: 'Poppins', sans-serif;
-            font-style: italic;
-            font-weight: 400;
-            font-size: 1.15rem;
-            color: #d63384;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            text-shadow: 0 0 1px rgba(0,0,0,0.05);
+            font-family: 'Poppins', sans-serif; font-style: italic; font-weight: 400;
+            font-size: 1.15rem; color: #d63384; line-height: 1.6; margin-bottom: 15px;
         }
 
         .btn-wrap { position: relative; height: 100px; display: flex; justify-content: center; align-items: center; }
@@ -60,6 +52,9 @@
     </style>
 </head>
 <body>
+
+    <audio id="fireworkSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" preload="auto"></audio>
+
     <div class="card" id="mainCard">
         <div id="questionArea">
             <h1>Lovleen loves arnav? ❤️</h1>
@@ -77,11 +72,11 @@
     </div>
 
     <script>
-        // Soft background petal rain
+        // Soft background rain
         function backgroundRain() {
-            confetti({ particleCount: 2, angle: 90, spread: 360, origin: { y: -0.1 }, colors: ['#ffc0cb', '#ff69b4'], shapes: ['circle'] });
+            confetti({ particleCount: 1, angle: 90, spread: 360, origin: { y: -0.1 }, colors: ['#ffc0cb', '#ff69b4'], shapes: ['circle'] });
         }
-        setInterval(backgroundRain, 500);
+        setInterval(backgroundRain, 600);
 
         const noBtn = document.getElementById('noBtn');
         const moveButton = (e) => {
@@ -98,26 +93,48 @@
         function showLove() {
             document.getElementById('questionArea').style.display = 'none';
             document.getElementById('apologyArea').style.display = 'block';
+            
+            // 1. Play Firework Sound
+            const sound = document.getElementById('fireworkSound');
+            sound.play().catch(e => console.log("Sound blocked by browser"));
 
-            // 1. THE FOUNTAIN EFFECT (Shooting upwards)
-            var fountainEnd = Date.now() + 3000;
-            (function fountain() {
-                confetti({ particleCount: 10, angle: 90, spread: 30, origin: { y: 1, x: 0.5 }, colors: ['#a2d2ff', '#ffffff', '#007aff'], startVelocity: 45 });
-                if (Date.now() < fountainEnd) { requestAnimationFrame(fountain); }
-            }());
-
-            // 2. ROSE PETAL & HEART SHOWER
-            var duration = 10 * 1000;
+            // 2. THE FIREWORK SHOW (Random bursts)
+            var duration = 8 * 1000;
             var animationEnd = Date.now() + duration;
-            (function shower() {
+
+            (function frame() {
                 var timeLeft = animationEnd - Date.now();
                 if (timeLeft <= 0) return;
+
+                // Random bursts across the screen
+                confetti({
+                    particleCount: 50,
+                    startVelocity: 30,
+                    spread: 360,
+                    origin: { x: Math.random(), y: Math.random() - 0.2 },
+                    colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#ffa500'],
+                    shapes: ['circle', 'heart'],
+                    scalar: 1.2
+                });
+
+                if (timeLeft > 0) {
+                    setTimeout(() => { requestAnimationFrame(frame); }, 400); // Har 400ms mein naya cracker
+                }
+            }());
+
+            // 3. THE FOUNTAIN & ROSE PETALS (Continuous)
+            var extraDuration = 10 * 1000;
+            var extraEnd = Date.now() + extraDuration;
+            (function extra() {
+                if (Date.now() > extraEnd) return;
                 
-                // Deep Red Petals
-                confetti({ particleCount: 10, angle: 60, spread: 70, origin: { x: 0 }, colors: ['#e63946', '#ff4d6d', '#ffb3c1'], shapes: ['circle', 'heart'] });
-                confetti({ particleCount: 10, angle: 120, spread: 70, origin: { x: 1 }, colors: ['#e63946', '#ff4d6d', '#ffb3c1'], shapes: ['circle', 'heart'] });
-                
-                requestAnimationFrame(shower);
+                // Fountain
+                confetti({ particleCount: 5, angle: 90, spread: 20, origin: { y: 1, x: 0.5 }, colors: ['#a2d2ff', '#ffffff'], startVelocity: 40 });
+                // Rose Petals
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#e63946', '#ff4d6d'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#e63946', '#ff4d6d'] });
+
+                requestAnimationFrame(extra);
             }());
         }
     </script>
