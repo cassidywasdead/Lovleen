@@ -3,49 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>For Lovleen ❤️</title>
+    <title>For My Lovleen ❤️</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: -apple-system, sans-serif; background-color: #fff0f5; overflow: hidden; touch-action: manipulation; }
-        h1 { color: #ff2d55; text-align: center; padding: 20px; font-size: 1.8rem; }
-        .container { position: relative; width: 100%; height: 300px; display: flex; justify-content: center; align-items: center; }
-        button { padding: 15px 35px; font-size: 1.1rem; font-weight: bold; border: none; border-radius: 50px; cursor: pointer; position: absolute; transition: all 0.15s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        #yesBtn { background-color: #34c759; color: white; transform: translateX(-70px); }
-        #noBtn { background-color: #ff3b30; color: white; transform: translateX(70px); z-index: 10; }
-        .success { display: none; text-align: center; animation: fadeIn 1s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: radial-gradient(circle, #fff0f5 0%, #ffdee9 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 40px 25px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            border: 2px solid #ffffff;
+            width: 85%;
+            max-width: 400px;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: #ff2d55;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-wrap {
+            position: relative;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        #yesBtn {
+            background: #34c759;
+            color: white;
+            margin-right: 20px;
+            z-index: 5;
+        }
+
+        #noBtn {
+            background: #ff3b30;
+            color: white;
+            position: absolute;
+            right: 40px;
+            z-index: 10;
+        }
+
+        .apology-text {
+            display: none;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .apology-text p {
+            font-size: 1.1rem;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .puchiiii {
+            font-family: 'Pacifico', cursive;
+            color: #ff2d55;
+            font-size: 1.5rem;
+            display: block;
+            margin-top: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
-    <div id="game">
-        <h1>Lovleen, do you love me? ❤️</h1>
-        <div class="container">
-            <button id="yesBtn" onclick="celebrate()">Yes</button>
-            <button id="noBtn">No</button>
+
+    <div class="card" id="mainCard">
+        <div id="questionArea">
+            <h1>Lovleen loves arnav? ❤️</h1>
+            <div class="btn-wrap">
+                <button id="yesBtn" onclick="showLove()">Yes</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+
+        <div id="apologyArea" class="apology-text">
+            <p>Arnav is sorry for his mistakes and will not repeat it and is asking for your forgiveness and love.</p>
+            <span class="puchiiii">I love youuuu puchiiii 💖</span>
+            <div style="font-size: 4rem; margin-top: 10px;">🌹</div>
         </div>
     </div>
-    <div id="message" class="success">
-        <h1 style="font-size: 2.5rem;">I knew it! 💖✨</h1>
-        <p style="font-size: 5rem;">🌹</p>
-    </div>
+
     <script>
         const noBtn = document.getElementById('noBtn');
+
+        // Petals/Hearts Shower in background
+        function backgroundShower() {
+            confetti({
+                particleCount: 2,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#ffb7c5', '#ff2d55', '#ffffff']
+            });
+            confetti({
+                particleCount: 2,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#ffb7c5', '#ff2d55', '#ffffff']
+            });
+        }
+        setInterval(backgroundShower, 500);
+
+        // No Button Dodge Logic
         const moveButton = (e) => {
             e.preventDefault();
-            const maxX = window.innerWidth - noBtn.offsetWidth - 40;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 40;
-            const x = Math.max(20, Math.floor(Math.random() * maxX));
-            const y = Math.max(20, Math.floor(Math.random() * maxY));
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
-            noBtn.style.transform = 'none';
+            const maxX = window.innerWidth - noBtn.offsetWidth - 50;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 50;
+            
+            const randomX = Math.max(25, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(25, Math.floor(Math.random() * maxY));
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
         };
+
         noBtn.addEventListener('touchstart', moveButton);
         noBtn.addEventListener('mouseover', moveButton);
-        function celebrate() {
-            document.getElementById('game').style.display = 'none';
-            document.getElementById('message').style.display = 'block';
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+
+        // Success Logic
+        function showLove() {
+            document.getElementById('questionArea').style.display = 'none';
+            document.getElementById('apologyArea').style.display = 'block';
+
+            // Big Explosion of Hearts and Petals
+            var end = Date.now() + (5 * 1000);
+            var colors = ['#ff2d55', '#ffb7c5', '#ffffff'];
+
+            (function frame() {
+              confetti({
+                particleCount: 3,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: colors
+              });
+              confetti({
+                particleCount: 3,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: colors
+              });
+
+              if (Date.now() < end) {
+                requestAnimationFrame(frame);
+              }
+            }());
+
+            // Center Heart Burst
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff2d55', '#ffb7c5']
+            });
         }
     </script>
 </body>
