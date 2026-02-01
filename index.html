@@ -4,101 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For My Lovleen ❤️</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdeliver.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;600&display=swap');
 
         body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: radial-gradient(circle, #fff0f5 0%, #ffdee9 100%);
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden;
-            touch-action: manipulation;
+            margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            background: radial-gradient(circle at center, #fff5f7 0%, #ffd1dc 100%);
+            font-family: 'Poppins', sans-serif; overflow-x: hidden; touch-action: manipulation;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 40px 25px;
-            border-radius: 30px;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
-            border: 2px solid #ffffff;
-            width: 85%;
-            max-width: 400px;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px);
+            padding: 30px 25px; border-radius: 35px; text-align: center;
+            box-shadow: 0 20px 40px rgba(255, 77, 109, 0.25);
+            border: 3px solid rgba(255, 255, 255, 0.9); width: 85%; max-width: 420px;
             z-index: 10;
         }
 
-        h1 {
-            font-family: 'Pacifico', cursive;
-            color: #ff2d55;
-            font-size: 1.8rem;
-            margin-bottom: 30px;
-        }
+        h1 { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.5rem; margin-bottom: 30px; }
 
-        .btn-wrap {
-            position: relative;
-            height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        .btn-wrap { position: relative; height: 100px; display: flex; justify-content: center; align-items: center; }
 
-        button {
-            padding: 15px 35px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-            transition: all 0.2s ease;
-        }
+        button { padding: 15px 35px; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; transition: transform 0.2s; }
 
-        #yesBtn {
-            background: #34c759;
-            color: white;
-            margin-right: 20px;
-            z-index: 5;
-        }
+        #yesBtn { background: #34c759; color: white; margin-right: 20px; }
+        #noBtn { background: #ff3b30; color: white; position: absolute; right: 40px; }
 
-        #noBtn {
-            background: #ff3b30;
-            color: white;
-            position: absolute;
-            right: 40px;
-            z-index: 10;
-        }
+        .couple-photo { width: 100%; max-width: 250px; border-radius: 20px; border: 3px solid white; margin: 15px auto; display: block; }
+        .puchiiii { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.2rem; display: block; margin-top: 15px; }
 
-        .apology-text {
-            display: none;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        .apology-text p {
-            font-size: 1.1rem;
-            color: #444;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .puchiiii {
-            font-family: 'Pacifico', cursive;
-            color: #ff2d55;
-            font-size: 1.5rem;
-            display: block;
-            margin-top: 15px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .bouquet { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+        .bouquet span { font-size: 2.5rem; display: inline-block; animation: floatFlower 3s ease-in-out infinite; }
+        
+        @keyframes floatFlower { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -112,89 +52,41 @@
             </div>
         </div>
 
-        <div id="apologyArea" class="apology-text">
-            <p>Arnav is sorry for his mistakes and will not repeat it and is asking for your forgiveness and love.</p>
+        <div id="apologyArea" style="display:none; animation: fadeIn 1.5s;">
+            <p style="font-weight: 500;">Arnav is sorry for his mistakes and will not repeat it and is asking for your forgiveness and love.</p>
+            <img src="us.jpg" alt="Lovleen and Arnav" class="couple-photo" onerror="this.style.display='none'">
             <span class="puchiiii">I love youuuu puchiiii 💖</span>
-            <div style="font-size: 4rem; margin-top: 10px;">🌹</div>
+            <div class="bouquet">
+                <span>🌹</span><span>🌷</span><span>💐</span><span>🌺</span>
+            </div>
         </div>
     </div>
 
     <script>
-        const noBtn = document.getElementById('noBtn');
-
-        // Petals/Hearts Shower in background
+        // Background Petals
         function backgroundShower() {
-            confetti({
-                particleCount: 2,
-                angle: 60,
-                spread: 55,
-                origin: { x: 0 },
-                colors: ['#ffb7c5', '#ff2d55', '#ffffff']
-            });
-            confetti({
-                particleCount: 2,
-                angle: 120,
-                spread: 55,
-                origin: { x: 1 },
-                colors: ['#ffb7c5', '#ff2d55', '#ffffff']
-            });
+            confetti({ particleCount: 2, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ffb7c5', '#ff2d55'] });
+            confetti({ particleCount: 2, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ffb7c5', '#ff2d55'] });
         }
         setInterval(backgroundShower, 500);
 
-        // No Button Dodge Logic
+        // No Button Dodge
+        const noBtn = document.getElementById('noBtn');
         const moveButton = (e) => {
             e.preventDefault();
-            const maxX = window.innerWidth - noBtn.offsetWidth - 50;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 50;
-            
-            const randomX = Math.max(25, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(25, Math.floor(Math.random() * maxY));
-            
+            const maxX = window.innerWidth - noBtn.offsetWidth - 60;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 60;
             noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+            noBtn.style.left = Math.max(30, Math.floor(Math.random() * maxX)) + 'px';
+            noBtn.style.top = Math.max(30, Math.floor(Math.random() * maxY)) + 'px';
         };
-
         noBtn.addEventListener('touchstart', moveButton);
         noBtn.addEventListener('mouseover', moveButton);
 
-        // Success Logic
         function showLove() {
             document.getElementById('questionArea').style.display = 'none';
             document.getElementById('apologyArea').style.display = 'block';
-
-            // Big Explosion of Hearts and Petals
-            var end = Date.now() + (5 * 1000);
-            var colors = ['#ff2d55', '#ffb7c5', '#ffffff'];
-
-            (function frame() {
-              confetti({
-                particleCount: 3,
-                angle: 60,
-                spread: 55,
-                origin: { x: 0 },
-                colors: colors
-              });
-              confetti({
-                particleCount: 3,
-                angle: 120,
-                spread: 55,
-                origin: { x: 1 },
-                colors: colors
-              });
-
-              if (Date.now() < end) {
-                requestAnimationFrame(frame);
-              }
-            }());
-
-            // Center Heart Burst
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ff2d55', '#ffb7c5']
-            });
+            confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#ff2d55', '#ffb7c5'], shapes: ['heart'] });
         }
     </script>
 </body>
