@@ -4,23 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For My Lovleen ❤️</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.10.7/dist/index.umd.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:ital,wght@0,300;0,500;0,600;1,400&display=swap');
         
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Poppins', sans-serif; }
+        
         body { 
-            margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; 
+            display: flex; justify-content: center; align-items: center; 
             background: linear-gradient(-45deg, #ffdee9, #b5fffc, #fff5f7, #ffd1dc);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            font-family: 'Poppins', sans-serif; overflow-x: hidden; touch-action: manipulation; 
+            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        #fireworks-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
         .card { 
             background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); 
@@ -31,20 +29,23 @@
         }
 
         h1 { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.8rem; margin-bottom: 25px; }
-        
-        .apology-msg {
-            font-family: 'Poppins', sans-serif; font-style: italic; font-weight: 400;
-            font-size: 1.15rem; color: #d63384; line-height: 1.6; margin-bottom: 15px;
-        }
-
+        .apology-msg { font-family: 'Poppins', sans-serif; font-style: italic; font-size: 1.15rem; color: #d63384; line-height: 1.6; margin-bottom: 15px; }
         .btn-wrap { position: relative; height: 100px; display: flex; justify-content: center; align-items: center; }
         button { padding: 15px 40px; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; }
         #yesBtn { background: #34c759; color: white; margin-right: 20px; box-shadow: 0 4px 15px rgba(52,199,89,0.3); }
         #noBtn { background: #ff3b30; color: white; position: absolute; right: 40px; }
         
-        .couple-photo { width: 100%; max-width: 200px; border-radius: 20px; border: 4px solid #fff; margin: 15px auto; display: block; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .puchiiii { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.5rem; display: block; margin-top: 10px; }
+        /* PHOTO SIZE REDUCED HERE */
+        .couple-photo { 
+            width: 100%; 
+            max-width: 160px; /* Smaller size */
+            border-radius: 20px; 
+            border: 4px solid #fff; 
+            margin: 15px auto; 
+            display: block; 
+        }
         
+        .puchiiii { font-family: 'Great Vibes', cursive; color: #ff2d55; font-size: 2.5rem; display: block; margin-top: 10px; }
         .bouquet { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
         .bouquet span { font-size: 2.5rem; animation: float 3s infinite ease-in-out; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -53,13 +54,13 @@
 </head>
 <body>
 
-    <audio id="fireworkSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" preload="auto"></audio>
+    <div id="fireworks-container"></div>
 
     <div class="card" id="mainCard">
         <div id="questionArea">
             <h1>Lovleen loves arnav? ❤️</h1>
             <div class="btn-wrap">
-                <button id="yesBtn" onclick="showLove()">Yes</button>
+                <button id="yesBtn" onclick="startShow()">Yes</button>
                 <button id="noBtn">No</button>
             </div>
         </div>
@@ -72,12 +73,7 @@
     </div>
 
     <script>
-        // Soft background rain
-        function backgroundRain() {
-            confetti({ particleCount: 1, angle: 90, spread: 360, origin: { y: -0.1 }, colors: ['#ffc0cb', '#ff69b4'], shapes: ['circle'] });
-        }
-        setInterval(backgroundRain, 600);
-
+        // No Button Dodge Logic
         const noBtn = document.getElementById('noBtn');
         const moveButton = (e) => {
             e.preventDefault();
@@ -90,52 +86,32 @@
         noBtn.addEventListener('touchstart', moveButton);
         noBtn.addEventListener('mouseover', moveButton);
 
-        function showLove() {
+        // Fireworks Setup
+        const container = document.getElementById('fireworks-container');
+        const fireworks = new Fireworks.default(container, {
+            autoresize: true, opacity: 0.5, acceleration: 1.05, friction: 0.97, gravity: 1.5, particles: 150, traceLength: 3, traceSpeed: 10, explosion: 8, intensity: 30, flicker: 50, lineStyle: 'round', hue: { min: 0, max: 360 }, delay: { min: 30, max: 60 }, rocketsPoint: { min: 50, max: 50 }, lineWidth: { explosion: { min: 1, max: 3 }, trace: { min: 1, max: 2 } }, brightness: { min: 50, max: 80 }, decay: { min: 0.015, max: 0.03 }, mouse: { click: false, move: false, max: 1 }
+        });
+
+        // Sound Setup
+        const fireworkAudio = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
+        fireworkAudio.volume = 1.0;
+
+        function startShow() {
             document.getElementById('questionArea').style.display = 'none';
             document.getElementById('apologyArea').style.display = 'block';
             
-            // 1. Play Firework Sound
-            const sound = document.getElementById('fireworkSound');
-            sound.play().catch(e => console.log("Sound blocked by browser"));
+            fireworks.start();
 
-            // 2. THE FIREWORK SHOW (Random bursts)
-            var duration = 8 * 1000;
-            var animationEnd = Date.now() + duration;
+            fireworkAudio.play();
+            let count = 0;
+            const soundInterval = setInterval(() => {
+                fireworkAudio.currentTime = 0;
+                fireworkAudio.play();
+                count++;
+                if (count > 5) clearInterval(soundInterval);
+            }, 800);
 
-            (function frame() {
-                var timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) return;
-
-                // Random bursts across the screen
-                confetti({
-                    particleCount: 50,
-                    startVelocity: 30,
-                    spread: 360,
-                    origin: { x: Math.random(), y: Math.random() - 0.2 },
-                    colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#ffa500'],
-                    shapes: ['circle', 'heart'],
-                    scalar: 1.2
-                });
-
-                if (timeLeft > 0) {
-                    setTimeout(() => { requestAnimationFrame(frame); }, 400); // Har 400ms mein naya cracker
-                }
-            }());
-
-            // 3. THE FOUNTAIN & ROSE PETALS (Continuous)
-            var extraDuration = 10 * 1000;
-            var extraEnd = Date.now() + extraDuration;
-            (function extra() {
-                if (Date.now() > extraEnd) return;
-                
-                // Fountain
-                confetti({ particleCount: 5, angle: 90, spread: 20, origin: { y: 1, x: 0.5 }, colors: ['#a2d2ff', '#ffffff'], startVelocity: 40 });
-                // Rose Petals
-                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#e63946', '#ff4d6d'] });
-                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#e63946', '#ff4d6d'] });
-
-                requestAnimationFrame(extra);
-            }());
+            setTimeout(() => { fireworks.stop(); }, 15000);
         }
     </script>
 </body>
