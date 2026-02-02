@@ -6,7 +6,7 @@
 <style>
 body {
   margin: 0;
-  background: #000;
+  background: black;
   font-family: Arial, sans-serif;
   overflow-x: hidden;
 }
@@ -18,32 +18,27 @@ h1 {
   font-size: 18px;
 }
 
-/* Mosaic grid */
+/* Grid */
 #mosaic {
   display: grid;
-  grid-template-columns: repeat(10, 1fr); /* small tiles */
-  gap: 4px;
-  padding: 8px;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 8px;
+  padding: 10px;
 }
 
-/* Common image style */
+/* Tile */
 .tile {
-  width: 100%;
   aspect-ratio: 1/1;
-  overflow: hidden;
+  background: #111;
   position: relative;
+  overflow: hidden;
 }
 
-.tile img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center; /* face cut na ho */
-  transition: transform 0.3s;
-}
-
-.tile:hover img {
-  transform: scale(1.2);
+/* Image as background (no crop) */
+.tile {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 /* Shapes */
@@ -51,11 +46,11 @@ h1 {
 
 .heart {
   clip-path: polygon(
-    50% 90%,
+    50% 95%,
     10% 55%,
     10% 30%,
     30% 10%,
-    50% 25%,
+    50% 28%,
     70% 10%,
     90% 30%,
     90% 55%
@@ -71,17 +66,21 @@ h1 {
   );
 }
 
-/* Falling petals */
+/* Petals */
 .petal {
   position: fixed;
-  top: -50px;
-  width: 25px;
-  height: 25px;
-  background-image: url("https://i.imgur.com/R9XUjfF.png");
-  background-size: cover;
+  top: -40px;
+  width: 28px;
+  height: 28px;
   pointer-events: none;
+  background-size: cover;
   animation: fall linear infinite;
 }
+
+/* Different petal images */
+.p1 { background-image: url("https://i.imgur.com/R9XUjfF.png"); }
+.p2 { background-image: url("https://i.imgur.com/0Z8FQYB.png"); }
+.p3 { background-image: url("https://i.imgur.com/y9dGQ7R.png"); }
 
 @keyframes fall {
   to {
@@ -100,7 +99,7 @@ h1 {
 
 <body>
 
-<h1>Every shape still shows you ❤️</h1>
+<h1>Every piece still shows you ❤️</h1>
 
 <div id="mosaic"></div>
 
@@ -111,30 +110,25 @@ h1 {
 
 <script>
 const mosaic = document.getElementById("mosaic");
-
-// shapes list
 const shapes = ["circle", "heart", "hexagon", ""];
+const petalTypes = ["p1", "p2", "p3"];
 
-// load 80 photos
+// Load 80 photos
 for (let i = 1; i <= 80; i++) {
   let div = document.createElement("div");
   div.className = "tile " + shapes[i % shapes.length];
-
-  let img = document.createElement("img");
-  img.src = "Github-" + i + ".jpg";
-  img.loading = "lazy";
-
-  div.appendChild(img);
+  div.style.backgroundImage = "url('Github-" + i + ".jpg')";
   mosaic.appendChild(div);
 }
 
-// petals generator
-for (let i = 0; i < 15; i++) {
+// Strong petal shower
+for (let i = 0; i < 35; i++) {
   let petal = document.createElement("div");
-  petal.className = "petal";
+  petal.className = "petal " + petalTypes[i % petalTypes.length];
   petal.style.left = Math.random() * 100 + "vw";
-  petal.style.animationDuration = (5 + Math.random() * 5) + "s";
+  petal.style.animationDuration = (3 + Math.random() * 3) + "s";
   petal.style.opacity = Math.random();
+  petal.style.transform = "scale(" + (0.6 + Math.random()) + ")";
   document.body.appendChild(petal);
 }
 </script>
