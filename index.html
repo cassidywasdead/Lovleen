@@ -1,104 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Memories ❤️</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        body { margin: 0; background: #000; color: white; font-family: sans-serif; }
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<style>
+body {
+  margin: 0;
+  background: black;
+  font-family: Arial, sans-serif;
+}
 
-        /* Collage Grid Styling */
-        .collage-container {
-            column-count: 3; /* Mobile par 2 ya 3 columns best hain */
-            column-gap: 10px;
-            padding: 10px;
-            background: #000;
-        }
+h1 {
+  text-align: center;
+  color: white;
+  margin: 10px 0;
+}
 
-        @media (max-width: 600px) {
-            .collage-container { column-count: 2; } /* Chhote phones ke liye 2 columns */
-        }
+#mosaic {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr); /* 9x9 = 81 photos */
+  gap: 2px;
+  padding: 5px;
+}
 
-        .memory-item {
-            display: inline-block;
-            width: 100%;
-            margin-bottom: 10px;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #333;
-            transition: transform 0.3s ease;
-        }
+#mosaic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+  transition: transform 0.3s, filter 0.3s;
+}
 
-        .memory-item:hover {
-            transform: scale(1.02); /* Touch karne par halka zoom */
-        }
+#mosaic img:hover {
+  transform: scale(1.8);
+  filter: brightness(1.1);
+  z-index: 10;
+}
 
-        .memory-img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Fixed Proposal Section */
-        #proposal {
-            position: sticky;
-            bottom: 0;
-            width: 100%;
-            padding: 20px 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            text-align: center;
-            border-top: 2px solid #ff4d4d;
-        }
-
-        .btn { padding: 12px 30px; font-size: 1rem; border-radius: 50px; border: none; font-weight: bold; }
-        #yes-btn { background: #ff4d4d; color: white; }
-        #no-btn { background: #222; color: #888; margin-left: 10px; }
-    </style>
+#proposal {
+  text-align: center;
+  color: white;
+  margin: 20px;
+  font-size: 22px;
+}
+</style>
 </head>
+
 <body>
 
-    <div style="text-align: center; padding: 30px 10px;">
-        <h1 style="color: #ffb3b3;">Our Beautiful Journey ❤️</h1>
-    </div>
+<h1>Every piece reminds me of you ❤️</h1>
 
-    <div class="collage-container" id="photo-collage"></div>
+<div id="mosaic"></div>
 
-    <div id="proposal">
-        <h3 style="margin: 0 0 10px 0;">Stay with me forever? ❤️</h3>
-        <button id="yes-btn" class="btn" onclick="celebrate()">YES!</button>
-        <button id="no-btn" class="btn" onmouseover="moveNo()">NO</button>
-    </div>
+<div id="proposal">
+  I had many pictures… but only one question. <br><br>
+  <b>Will you be mine? 💖</b>
+</div>
 
-    <script>
-        const total = 81;
-        const collage = document.getElementById('photo-collage');
+<script>
+const mosaic = document.getElementById("mosaic");
 
-        function loadCollage() {
-            let html = '';
-            for(let i = 1; i <= total; i++) {
-                const ext = (i === 80) ? 'png' : 'jpg';
-                html += `
-                    <div class="memory-item">
-                        <img src="Github-${i}.${ext}" class="memory-img" loading="lazy">
-                    </div>`;
-            }
-            collage.innerHTML = html;
-        }
-        loadCollage();
+for (let i = 1; i <= 81; i++) {
+  let img = document.createElement("img");
+  img.src = "Github-" + i + ".jpg";
+  mosaic.appendChild(img);
+}
+</script>
 
-        function moveNo() {
-            const b = document.getElementById('no-btn');
-            b.style.position = 'fixed';
-            b.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-            b.style.bottom = Math.random() * (window.innerHeight - 50) + 'px';
-        }
-
-        function celebrate() {
-            confetti({ particleCount: 500, spread: 150 });
-            alert("I love you! ❤️");
-        }
-    </script>
 </body>
 </html>
