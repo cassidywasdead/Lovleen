@@ -6,7 +6,7 @@
 <style>
 body {
   margin: 0;
-  background: black;
+  background: #000;
   font-family: Arial, sans-serif;
   overflow-x: hidden;
 }
@@ -21,39 +21,72 @@ h1 {
 /* Mosaic grid */
 #mosaic {
   display: grid;
-  grid-template-columns: repeat(12, 1fr); /* more columns = smaller tiles */
-  gap: 1px;
-  padding: 5px;
+  grid-template-columns: repeat(10, 1fr); /* small tiles */
+  gap: 4px;
+  padding: 8px;
+}
+
+/* Common image style */
+.tile {
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
   position: relative;
 }
 
-/* Images */
-#mosaic img {
+.tile img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.85);
+  object-position: center; /* face cut na ho */
   transition: transform 0.3s;
 }
 
-/* Zoom on tap/hover */
-#mosaic img:hover {
-  transform: scale(1.4);
-  z-index: 5;
+.tile:hover img {
+  transform: scale(1.2);
 }
 
-/* Cracked glass overlay */
-#mosaic::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url("https://i.imgur.com/9Qe4Z7M.png"); /* cracked glass texture */
+/* Shapes */
+.circle { border-radius: 50%; }
+
+.heart {
+  clip-path: polygon(
+    50% 90%,
+    10% 55%,
+    10% 30%,
+    30% 10%,
+    50% 25%,
+    70% 10%,
+    90% 30%,
+    90% 55%
+  );
+}
+
+.hexagon {
+  clip-path: polygon(
+    25% 5%, 75% 5%,
+    100% 50%,
+    75% 95%, 25% 95%,
+    0% 50%
+  );
+}
+
+/* Falling petals */
+.petal {
+  position: fixed;
+  top: -50px;
+  width: 25px;
+  height: 25px;
+  background-image: url("https://i.imgur.com/R9XUjfF.png");
   background-size: cover;
-  opacity: 0.25;
   pointer-events: none;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+  }
 }
 
 #proposal {
@@ -67,7 +100,7 @@ h1 {
 
 <body>
 
-<h1>Every broken piece still shows you ❤️</h1>
+<h1>Every shape still shows you ❤️</h1>
 
 <div id="mosaic"></div>
 
@@ -79,11 +112,30 @@ h1 {
 <script>
 const mosaic = document.getElementById("mosaic");
 
-for (let i = 1; i <= 81; i++) {
+// shapes list
+const shapes = ["circle", "heart", "hexagon", ""];
+
+// load 80 photos
+for (let i = 1; i <= 80; i++) {
+  let div = document.createElement("div");
+  div.className = "tile " + shapes[i % shapes.length];
+
   let img = document.createElement("img");
   img.src = "Github-" + i + ".jpg";
-  img.loading = "lazy"; // prevents crash
-  mosaic.appendChild(img);
+  img.loading = "lazy";
+
+  div.appendChild(img);
+  mosaic.appendChild(div);
+}
+
+// petals generator
+for (let i = 0; i < 15; i++) {
+  let petal = document.createElement("div");
+  petal.className = "petal";
+  petal.style.left = Math.random() * 100 + "vw";
+  petal.style.animationDuration = (5 + Math.random() * 5) + "s";
+  petal.style.opacity = Math.random();
+  document.body.appendChild(petal);
 }
 </script>
 
