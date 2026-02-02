@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Lovleen ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Memory Flow Styling */
+        #memory-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .memory-card {
+            width: 90%;
+            max-width: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .memory-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .memory-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Proposal Section */
+        #proposal-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(to top, #1a0000, #000);
+        }
+
+        h1 { font-size: 2.5rem; color: #ff4d4d; margin-bottom: 30px; }
+
+        .btn-container { position: relative; display: flex; gap: 20px; height: 60px; }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #yes-btn { background-color: #ff4d4d; color: white; box-shadow: 0 0 20px #ff4d4d; }
+        
+        #no-btn { 
+            background-color: #444; color: white; 
+            position: absolute; left: 140px;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="text-align: center; padding: 50px 20px;">
+        <h2 style="color: #ffb3b3;">Our Journey So Far...</h2>
+        <p style="color: #888;">Scroll down, Lovleen. There's something at the end. ❤️</p>
+    </div>
+
+    <div id="memory-flow"></div>
+
+    <div id="proposal-section">
+        <h1>Will you be mine forever, Lovleen? ❤️</h1>
+        <div class="btn-container">
+            <button id="yes-btn" class="btn" onclick="celebrate()">YES!</button>
+            <button id="no-btn" class="btn" onmouseover="moveNoButton()">NO</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Generate 81 Images
+        const totalPhotos = 81; 
+        const flow = document.getElementById('memory-flow');
+
+        for(let i = 1; i <= totalPhotos; i++) {
+            flow.innerHTML += `
+                <div class="memory-card">
+                    <img src="Github-${i}.jpg" class="memory-img" loading="lazy">
+                </div>
+            `;
+        }
+
+        // 2. Scroll Animation (Reveal images on scroll)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.memory-card').forEach(card => observer.observe(card));
+
+        // 3. Moving No Button Logic
+        function moveNoButton() {
+            const btn = document.getElementById('no-btn');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        // 4. Celebration Logic
+        function celebrate() {
+            confetti({
+                particleCount: 500,
+                spread: 150,
+                origin: { y: 0.6 },
+                colors: ['#ff0000', '#ff69b4', '#ffffff']
+            });
+            
+            // Wait for 1 second before showing alert
+            setTimeout(() => {
+                alert("I love you so much, Lovleen! ❤️ This is the best moment ever!");
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
