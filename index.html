@@ -6,62 +6,71 @@
     <title>For Lovleen ❤️</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        body { margin: 0; background-color: #000; color: white; font-family: sans-serif; overflow: hidden; }
-        
-        /* Auto-Scroll Container */
+        :root { --accent: #ff4d4d; }
+        body { margin: 0; background: #050505; color: white; font-family: 'Poppins', sans-serif; overflow-x: hidden; }
+
+        /* Cinematic Background Glow */
+        .bg-glow {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 300px; height: 300px; background: var(--accent);
+            filter: blur(150px); opacity: 0.2; z-index: -1;
+        }
+
+        /* 3D Scroll Container */
         .marquee-container {
-            height: 70vh; /* Photos ki height */
-            overflow: hidden;
-            position: relative;
-            background: #000;
+            height: 75vh; overflow: hidden; position: relative;
+            perspective: 1000px; /* 3D Depth Effect */
         }
 
         .marquee-content {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            animation: scrollUp 40s linear infinite; /* Speed yahan se control hogi */
+            display: flex; flex-direction: column; gap: 30px; padding: 50px 0;
+            animation: cinematicScroll 60s linear infinite;
         }
 
-        @keyframes scrollUp {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-50%); } /* Half point par reset hoga */
+        @keyframes cinematicScroll {
+            0% { transform: translateY(0) rotateX(5deg); }
+            100% { transform: translateY(-50%) rotateX(5deg); }
         }
 
-        .memory-img {
-            width: 90vw;
-            max-width: 350px;
-            border-radius: 15px;
-            margin: 0 auto;
-            border: 2px solid #ff4d4d;
+        .memory-card {
+            width: 85vw; max-width: 380px; margin: 0 auto;
+            border-radius: 25px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            transform: rotateY(-10deg); /* 3D Tilt */
+            transition: 0.5s;
         }
 
-        /* Bottom Section */
-        #proposal-section {
-            height: 30vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: #1a0000;
-            border-top: 2px solid #ff4d4d;
+        .memory-img { width: 100%; height: auto; display: block; filter: saturate(1.1); }
+
+        /* Proposal Section Styling */
+        #proposal {
+            height: 25vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,4d,4d,0.3);
         }
 
-        .btn { padding: 12px 30px; font-size: 1rem; border-radius: 50px; border: none; cursor: pointer; }
-        #yes-btn { background: #ff4d4d; color: white; box-shadow: 0 0 15px #ff4d4d; }
-        #no-btn { background: #444; color: white; position: absolute; margin-left: 150px; }
+        .btn { 
+            padding: 15px 35px; font-size: 1.1rem; border-radius: 50px; 
+            border: none; cursor: pointer; font-weight: bold; transition: 0.3s;
+        }
+        #yes-btn { background: var(--accent); color: white; box-shadow: 0 5px 20px var(--accent); }
+        #no-btn { background: #222; color: #888; position: absolute; margin-left: 160px; }
     </style>
 </head>
 <body>
 
+    <div class="bg-glow"></div>
+
     <div class="marquee-container">
-        <div class="marquee-content" id="scroll-list">
+        <div class="marquee-content" id="photo-stack">
             </div>
     </div>
 
-    <div id="proposal-section">
-        <h2 style="margin-bottom: 15px;">Will you be mine, Lovleen? ❤️</h2>
-        <div style="position: relative; width: 100%; display: flex; justify-content: center;">
+    <div id="proposal">
+        <h2 style="margin-bottom: 20px; text-shadow: 0 0 10px var(--accent);">Lovleen, stay forever? ❤️</h2>
+        <div style="position: relative; display: flex; justify-content: center; width: 100%;">
             <button id="yes-btn" class="btn" onclick="celebrate()">YES!</button>
             <button id="no-btn" class="btn" onmouseover="moveNo()">NO</button>
         </div>
@@ -69,27 +78,27 @@
 
     <script>
         const total = 81;
-        const list = document.getElementById('scroll-list');
+        const stack = document.getElementById('photo-stack');
 
-        // Infinite Loop Logic: Photos ko do baar load karenge taaki gap na aaye
-        function loadPhotos() {
-            let imagesHTML = '';
+        function init() {
+            let html = '';
             for(let i = 1; i <= total; i++) {
-                imagesHTML += `<img src="Github-${i}.jpg" class="memory-img">`;
+                // Filename should match your Github-1.jpg format
+                html += `<div class="memory-card"><img src="Github-${i}.jpg" class="memory-img"></div>`;
             }
-            list.innerHTML = imagesHTML + imagesHTML; // Duplicate for seamless loop
+            stack.innerHTML = html + html; // Double loop for infinity
         }
-        loadPhotos();
+        init();
 
         function moveNo() {
             const b = document.getElementById('no-btn');
-            b.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-            b.style.top = (Math.random() * -100) + 'px'; // Thoda upar bhagega
+            b.style.left = Math.random() * (window.innerWidth - 120) + 'px';
+            b.style.top = (Math.random() * -150) + 'px';
         }
 
         function celebrate() {
-            confetti({ particleCount: 600, spread: 160, origin: { y: 0.6 } });
-            setTimeout(() => { alert("I love you, Lovleen! ❤️"); }, 500);
+            confetti({ particleCount: 800, spread: 100, origin: { y: 0.6 } });
+            setTimeout(() => { alert("I Love You! ❤️"); }, 600);
         }
     </script>
 </body>
